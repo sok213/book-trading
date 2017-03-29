@@ -1,0 +1,15 @@
+{
+  "name": "book-trade",
+  "version": "1.0.0",
+  "description": "Book trading platform for exchanging books.",
+  "main": "app.js",
+  "author": "sophanarith sok <sophanarithsok@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "mongoose": "^4.9.2"
+  }
+}
