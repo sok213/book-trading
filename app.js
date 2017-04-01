@@ -3,16 +3,17 @@
 * "The Complete NodeJS Course - 2" by Andrew Mead from Udemy.com
 */
 
-const express = require('express'),
-_             = require('lodash'),
-path          = require('path'),
-mongoose      = require('mongoose'),
-config        = require('./config'),
-bodyParser    = require('body-parser'),
-app           = express(),
-{User}        = require('./models/user'),
-port          = process.env.PORT || 3000,
-db            = mongoose.connect(config.getDbConnectionString());
+const express  = require('express'),
+_              = require('lodash'),
+path           = require('path'),
+mongoose       = require('mongoose'),
+config         = require('./config'),
+bodyParser     = require('body-parser'),
+app            = express(),
+{User}         = require('./models/user'),
+{authenticate} = require('./middleware/authenticate'),
+port           = process.env.PORT || 3000,
+db             = mongoose.connect(config.getDbConnectionString());
 
 // Set views and view engine to HandleBars.
 app.set('views', path.join(__dirname, 'views'));
@@ -21,8 +22,29 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Public route for home page.
 app.get('/', (req, res) => {
-  res.send('Hello.');
+  res.send('Home.');
+});
+
+// Public route for sign up.
+app.get('/signup', (req, res) => {
+  res.send('Sign-up.');
+});
+
+// Private route for profile settings.
+app.get('/users/settings', (req, res) => {
+  res.send('Settings.');
+});
+
+// Private route for user profile.
+app.get('/users/myprofile', authenticate, (req, res) => {
+  res.send(req.user);
+});
+
+// Public route for 404 page.
+app.get('*', (req, res) => {
+  res.status(404).send('404.');
 });
 
 // POST /users for users to create a new account.
@@ -33,11 +55,11 @@ app.post('/users', (req, res) => {
   user.save().then(() => {
     return user.generateAuthToken();
   }).then((token) => {
+    // Send back the user document after new user is saved.
     res.header('x-auth', token).send(user);
   }).catch((e) => {
     res.status(400).send(e);
   });
-  
 });
 
 app.listen(port, () => console.log('Listening on PORT: ', port));
