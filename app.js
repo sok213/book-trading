@@ -76,10 +76,10 @@ app.post('/users/login', (req, res) => {
   });
 });
 
-// PATCH /users/:id to update the user's city and state properties.
+// PATCH /users/:id to update the user's name, city and state properties.
 app.patch('/users/:id', authenticate,  (req, res) => {
   let id = req.params.id;
-  let body = _.pick(req.body, ['city', 'state']);
+  let body = _.pick(req.body, ['city', 'state', 'name']);
   
   if(!ObjectID.isValid(id)) {
     return res.status(404).send();

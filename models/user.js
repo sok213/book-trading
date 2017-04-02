@@ -22,6 +22,10 @@ let UserSchema = new mongoose.Schema({
     required: true,
     minlength: 4
   },
+  name: {
+    type: String,
+    minlength: 1
+  },
   city: {
     type: String,
     minlength: 1,
