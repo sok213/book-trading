@@ -12,6 +12,7 @@ bodyParser     = require('body-parser'),
 app            = express(),
 {User}         = require('./models/user'),
 {authenticate} = require('./middleware/authenticate'),
+{ObjectID}     = require('mongodb'),
 port           = process.env.PORT || 3000,
 db             = mongoose.connect(config.getDbConnectionString());
 
@@ -59,6 +60,43 @@ app.post('/users', (req, res) => {
     res.header('x-auth', token).send(user);
   }).catch((e) => {
     res.status(400).send(e);
+  });
+});
+
+// POST /users/login to sign-in existing users.
+app.post('/users/login', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password']);
+  
+  User.findByCredentials(body.email, body.password).then((user) => {
+    return user.generateAuthToken().then((token) => {
+      res.header('x-auth', token).send(user);
+    });
+  }).catch((e) => {
+    res.status(400).send(e);
+  });
+});
+
+// PATCH /users/:id to update the user's city and state properties.
+app.patch('/users/:id', authenticate,  (req, res) => {
+  let id = req.params.id;
+  let body = _.pick(req.body, ['city', 'state']);
+  
+  if(!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+  
+  if(id !== req.user.id) {
+    return status(401).send();
+  }
+  
+  User.findByIdAndUpdate(id, { $set: body }, { new: true }).then((user) => {
+    if(!user) {
+      return res.status(404).send();
+    }
+    
+    res.send(user);
+  }).catch((e) => {
+    res.status(400).send();
   });
 });
 
