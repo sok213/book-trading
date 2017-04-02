@@ -1,4 +1,5 @@
 {
   "user": "admin",
-  "pwd": "0000"
+  "pwd": "0000",
+  "JWT_SECRET": "8cUuLC80ReehFjuCUdtkn0vJrOYy0a11PuIujB6Lfs06mTFGdlEh7xGew7h45WI"
 }

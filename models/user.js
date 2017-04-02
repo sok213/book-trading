@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
 validator      = require('validator'),
 _              = require('lodash'),
+config         = require('./../config'),
 jwt            = require('jsonwebtoken'),
 bcrypt         = require('bcryptjs');
 
@@ -58,12 +59,12 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function() {
   let user = this,
   access   = 'auth';
-  
+  console.log('JWT_SECRET: ', config.JWT_SECRET);
   // Generate and set the token to user instance.
   let token = jwt.sign({
     _id: user._id.toHexString(), 
     access
-  }, 'abc123').toString();
+  }, config.JWT_SECRET).toString();
   
   user.tokens.push({ access, token });
   
@@ -80,7 +81,7 @@ UserSchema.statics.findByToken = function(token) {
   let decoded;
   
   try {
-    decoded = jwt.verify(token, 'abc123');
+    decoded = jwt.verify(token, config.JWT_SECRET);
   } catch(e) {
     return Promise.reject();
   }
@@ -113,7 +114,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
   
   return User.findOne({ email }).then((user) => {
     if(!user) {
-      return Promise.reject();
+      return Promise.reject('No user found');
     }
     
     return new Promise((resolve, reject) => {

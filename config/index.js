@@ -7,5 +7,6 @@ module.exports = {
   getDbConnectionString: () => {
     return `mongodb://${ configValues.user }:${ configValues.pwd }` + 
     `@ds145380.mlab.com:45380/book-trade`;
-  }
+  },
+  JWT_SECRET: configValues.JWT_SECRET
 };
