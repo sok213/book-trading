@@ -13,6 +13,7 @@ app            = express(),
 {User}         = require('./models/user'),
 {authenticate} = require('./middleware/authenticate'),
 {ObjectID}     = require('mongodb'),
+{googleBooks}  = require('./controllers/apiController'),
 port           = process.env.PORT || 3000,
 db             = mongoose.connect(config.getDbConnectionString());
 
@@ -25,7 +26,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Public route for home page.
 app.get('/', (req, res) => {
-  res.send('Home.');
+  googleBooks('the hobbit', (err, book) => {
+    res.send(book);
+  });
+  //res.send('Home.');
 });
 
 // Public route for sign up.
