@@ -26,7 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Public route for home page.
 app.get('/', (req, res) => {
-  res.send('Home.');
+  
+  // Find all books posted by every user and send it back to client.
+  User.find({}, ['-email', '-city', '-state'], (err, doc) => {
+    res.send(doc);
+  });
+  
+  //res.send('Home.');
 });
 
 // Public route for sign up.
@@ -51,7 +57,7 @@ app.get('*', (req, res) => {
 
 // POST /users for users to create a new account.
 app.post('/users', (req, res) => {
-  let body = _.pick(req.body, ['email', 'password']);  
+  let body = _.pick(req.body, ['email', 'password', 'username']);  
   let user = new User(body);
 
   user.save().then(() => {
@@ -120,7 +126,7 @@ app.post('/users/myprofile/:id/books', authenticate, (req, res) => {
     // Push in the new book into the user's book property array.
     User.findByIdAndUpdate(id, 
       { $push: {books: newBook} }, 
-      {safe: true, upsert: true, new : true}).then((addedBook) => {
+      { safe: true, upsert: true, new : true }).then((addedBook) => {
         if(!addedBook) {
           return res.status(404).send();
         }

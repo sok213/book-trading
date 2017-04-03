@@ -22,6 +22,12 @@ let UserSchema = new mongoose.Schema({
     required: true,
     minlength: 4
   },
+  username: {
+    type: String,
+    required: true,
+    minlength: 1,
+    unique: true
+  },
   name: {
     type: String,
     minlength: 1
@@ -60,7 +66,15 @@ UserSchema.methods.toJSON = function() {
   let user = this,
   userObject = this.toObject();
   
-  return _.pick(userObject, ['_id', 'email', 'city', 'state', 'books']);
+  return _.pick(userObject, 
+    [
+      '_id', 
+      'email', 
+      'city', 
+      'state', 
+      'books', 
+      'username'
+    ]);
 };
 
 UserSchema.methods.generateAuthToken = function() {
