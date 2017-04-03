@@ -39,6 +39,9 @@ let UserSchema = new mongoose.Schema({
   bio: {
     type: String
   },
+  books: {
+    type: Array
+  },
   tokens: [{
     access: {
       type: String,
@@ -57,7 +60,7 @@ UserSchema.methods.toJSON = function() {
   let user = this,
   userObject = this.toObject();
   
-  return _.pick(userObject, ['_id', 'email', 'city', 'state']);
+  return _.pick(userObject, ['_id', 'email', 'city', 'state', 'books']);
 };
 
 UserSchema.methods.generateAuthToken = function() {

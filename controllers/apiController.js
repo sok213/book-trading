@@ -5,7 +5,7 @@ const request = require('request');
 let googleBooks = (bookTitle, callback) => {
   let apiURL = `https://www.googleapis.com/books/v1/volumes?q=${ bookTitle }` + 
     '&maxResults=1';
-    
+
   request(apiURL, (err, response, data) => {
     if(err || response.statusCode !== 200) {
       return callback({ error: 'Book not found.'}, null);

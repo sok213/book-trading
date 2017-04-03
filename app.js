@@ -26,10 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Public route for home page.
 app.get('/', (req, res) => {
-  googleBooks('the hobbit', (err, book) => {
-    res.send(book);
-  });
-  //res.send('Home.');
+  res.send('Home.');
 });
 
 // Public route for sign up.
@@ -80,8 +77,8 @@ app.post('/users/login', (req, res) => {
   });
 });
 
-// PATCH /users/:id to update the user's name, city and state properties.
-app.patch('/users/:id', authenticate,  (req, res) => {
+// PATCH /users/myprofile/:id to update the user's name, city and state properties.
+app.patch('/users/myprofile/:id', authenticate,  (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['city', 'state', 'name', 'bio']);
   
@@ -101,6 +98,34 @@ app.patch('/users/:id', authenticate,  (req, res) => {
     res.send(user);
   }).catch((e) => {
     res.status(400).send();
+  });
+});
+
+// POST /users/myprofile/books to add new books.
+app.post('/users/myprofile/:id/books', authenticate, (req, res) => {
+  let {bookTitle} = _.pick(req.body, ['bookTitle']);
+  let id = req.params.id;
+  
+  googleBooks(bookTitle, (err, book) => {
+    if(err) {
+      return res.status(400).send();
+    }
+    
+    let newBook = {
+      title: book[0].volumeInfo.title,
+      author: book[0].volumeInfo.authors.join(', '),
+      thumbnail: book[0].volumeInfo.imageLinks.thumbnail
+    };
+    
+    // Push in the new book into the user's book property array.
+    User.findByIdAndUpdate(id, 
+      { $push: {books: newBook} }, 
+      {safe: true, upsert: true, new : true}).then((addedBook) => {
+        if(!addedBook) {
+          return res.status(404).send();
+        }
+        res.send(addedBook);
+      });
   });
 });
 
