@@ -31,8 +31,6 @@ app.get('/', (req, res) => {
   User.find({}, ['-email', '-city', '-state'], (err, doc) => {
     res.send(doc);
   });
-  
-  //res.send('Home.');
 });
 
 // Public route for sign up.
@@ -83,7 +81,8 @@ app.post('/users/login', (req, res) => {
   });
 });
 
-// PATCH /users/myprofile/:id to update the user's name, city and state properties.
+// PATCH /users/myprofile/:id to update the user's name, city and state 
+// properties.
 app.patch('/users/myprofile/:id', authenticate,  (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['city', 'state', 'name', 'bio']);
@@ -107,7 +106,7 @@ app.patch('/users/myprofile/:id', authenticate,  (req, res) => {
   });
 });
 
-// POST /users/myprofile/books to add new books.
+// POST /users/myprofile/:id/books to add new books.
 app.post('/users/myprofile/:id/books', authenticate, (req, res) => {
   let {bookTitle} = _.pick(req.body, ['bookTitle']);
   let id = req.params.id;
@@ -133,6 +132,66 @@ app.post('/users/myprofile/:id/books', authenticate, (req, res) => {
         res.send(addedBook);
       });
   });
+});
+
+// GET /users/trade/:id/:userBook to allow the client to select a book
+// from the their library and send it to the POST request which creates a 
+// sent trade.
+app.get('/user/trade/:id/:userBook', authenticate, (req, res) => {
+  // Store the book object that the client wants to trade for and the id of
+  // the receiving user.
+  let userBook = req.params.selectedBook;
+  let userId = req.params.id;
+  
+  // Render a view with the above parameter to be injected into a POST
+  // request.
+  
+  // User will choose a book from their library. User's book and client book
+  // will merge into a 'sentTrades' object for the user and a 'pendingTrades'
+  // object for the receiving user.
+});
+
+// POST /users/propose-trade to propose a trade to another user.
+app.post('/user/propose-trade', authenticate, (req, res) => {
+  /*
+  * Get client user doc and add book and send book object to client user's 
+  * 'sentTrades' array property. Then, get other user doc and add book and
+  * client user's 'name' and 'email' property too other user's 'pendingTrades'
+  * array property.
+  */
+  
+  let body = _.pick(req.body, ['userBook', 'userId', 'clientBook', 'clientId']);
+  
+  // Create trade object.
+  let tradeObject = {
+    sentBook: body.clientBook,
+    askingBook: body.userBook,
+    sentBy: body.clientId,
+    sentTo: body.userId
+  };
+  
+  res.send(tradeObject);
+  
+  // Find receiving user and add the 'pendingTrades' object.
+  // User.findByIdAndUpdate({id: body.userId}).then((user) => {
+  //   
+  // });
+  // 
+  // Find client user and add the 'sentTrades' object.
+  // User.findByIdAndUpdate({}).then((user) => {
+  //   
+  // });
+  
+  // Redirect to client's profile page.
+});
+
+// PATCH /users/myprofile/:id/accept to accept trade requests.
+app.patch('/user/myprofile/:id/accept', authenticate, (req, res) => {
+  /*
+  * Get client user doc and move the trade request object to 'acceptedTrades'
+  * property. Then, get other user doc and move trade bject from 'sentTrades'
+  * to 'acceptedTrades' property.
+  */
 });
 
 // DELETE /users/myprofile/token to delete the JWT token 

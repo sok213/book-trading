@@ -48,6 +48,17 @@ let UserSchema = new mongoose.Schema({
   books: {
     type: Array
   },
+  trades: {
+    sentTrades: {
+      type: Array
+    },
+    pendingTrades: {
+      type: Array
+    },
+    acceptedTrades: {
+      type: Array
+    }
+  },
   tokens: [{
     access: {
       type: String,
@@ -162,6 +173,4 @@ UserSchema.methods.removeToken = function(token) {
 
 let User = mongoose.model('User', UserSchema);
 
-module.exports = {
-  User
-};
+module.exports = { User };
