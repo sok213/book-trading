@@ -11,6 +11,7 @@ config         = require('./config'),
 bodyParser     = require('body-parser'),
 app            = express(),
 {User}         = require('./models/user'),
+{Trade}        = require('./models/trade'),
 {authenticate} = require('./middleware/authenticate'),
 {ObjectID}     = require('mongodb'),
 {googleBooks}  = require('./controllers/apiController'),
@@ -166,7 +167,7 @@ app.post('/user/propose-trade', authenticate, (req, res) => {
   let tradeObject = {
     sentBook: body.clientBook,
     askingBook: body.userBook,
-    sentBy: body.clientId,
+    sentFrom: body.clientId,
     sentTo: body.userId
   };
   
