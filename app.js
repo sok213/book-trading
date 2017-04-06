@@ -126,12 +126,13 @@ app.post('/users/myprofile/:id/books', authenticate, (req, res) => {
     // Push in the new book into the user's book property array.
     User.findByIdAndUpdate(id, 
       { $push: {books: newBook} }, 
-      { safe: true, upsert: true, new : true }).then((addedBook) => {
-        if(!addedBook) {
-          return res.status(404).send();
-        }
-        res.send(addedBook);
-      });
+      { safe: true, upsert: true, new : true })
+    .then((addedBook) => {
+      if(!addedBook) {
+        return res.status(404).send();
+      }
+      res.send(addedBook);
+    });
   });
 });
 
@@ -162,25 +163,56 @@ app.post('/user/propose-trade', authenticate, (req, res) => {
   */
   
   let body = _.pick(req.body, ['userBook', 'userId', 'clientBook', 'clientId']);
-  
+  //res.send(req.user);
   // Create trade object.
-  let tradeObject = {
+  let trade = new Trade({
     sentBook: body.clientBook,
     askingBook: body.userBook,
-    sentFrom: body.clientId,
-    sentTo: body.userId
-  };
+    sentFrom: {
+      _id: body.clientId,
+      username: req.user.username
+    },
+    sentTo:{
+      _id: body.userId,
+      username: null
+    }
+  });
   
-  res.send(tradeObject);
+  // Set trade.sentTo.username property value.
+  User.findById(body.userId, (err, user) => {
+    trade.sentTo.username = user.username;
+    // Save trade to trades collection.
+    trade.save().then((resultTrade) => {
+      
+      // Find receiving user and add the 'pendingTrades' object.
+      User.findByIdAndUpdate(body.userId, 
+        { $push: { 'trades.pendingTrades': resultTrade } },
+        { safe: true, upsert: true, new : true })
+      .then((thisUser) => {
+          if(!thisUser) {
+            return res.status(400).send();
+          }
+          
+          res.send(thisUser);
+      }).catch((e) => res.status(400).send(e));
+      
+      //res.send(resultTrade);
+    }).catch((e) => {
+      res.status(400).send(e);
+    });
+  });
   
-  // Find receiving user and add the 'pendingTrades' object.
-  // User.findByIdAndUpdate({id: body.userId}).then((user) => {
-  //   
-  // });
   // 
   // Find client user and add the 'sentTrades' object.
-  // User.findByIdAndUpdate({}).then((user) => {
+  // User.findByIdAndUpdate({ _id: body.clientId }, 
+  //   { $push: { sentTrades: trade } },
+  //   { safe: true, upsert: true, new : true }
+  // ).then((user) => {
+  //   if(!user) {
+  //     return res.status(400).send();
+  //   }
   //   
+  //   res.send(user);
   // });
   
   // Redirect to client's profile page.

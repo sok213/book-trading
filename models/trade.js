@@ -11,12 +11,29 @@ let TradeSchema = new mongoose.Schema({
     required: true
   },
   sentFrom: {
-    type: String,
-    required: true
+    _id: {
+      type: String,
+      required: true
+    },
+    username: {
+      type: String,
+      required: true
+    }
   },
   sentTo: {
+    _id: {
+      type: String,
+      required: true
+    },
+    username: {
+      type: String,
+      required: true
+    }
+  },
+  status: {
     type: String,
-    required: true
+    required: true,
+    default: 'pending'
   }
 });
 

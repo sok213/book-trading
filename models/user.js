@@ -84,7 +84,8 @@ UserSchema.methods.toJSON = function() {
       'city', 
       'state', 
       'books', 
-      'username'
+      'username',
+      'trades'
     ]);
 };
 
