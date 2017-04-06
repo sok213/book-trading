@@ -139,7 +139,7 @@ app.post('/users/myprofile/:id/books', authenticate, (req, res) => {
 // GET /users/trade/:id/:userBook to allow the client to select a book
 // from the their library and send it to the POST request which creates a 
 // sent trade.
-app.get('/user/trade/:id/:userBook', authenticate, (req, res) => {
+app.get('/users/trade/:id/:userBook', authenticate, (req, res) => {
   // Store the book object that the client wants to trade for and the id of
   // the receiving user.
   let userBook = req.params.selectedBook;
@@ -154,7 +154,7 @@ app.get('/user/trade/:id/:userBook', authenticate, (req, res) => {
 });
 
 // POST /users/propose-trade to propose a trade to another user.
-app.post('/user/propose-trade', authenticate, (req, res) => {
+app.post('/users/propose-trade', authenticate, (req, res) => {
   /*
   * Get client user doc and add book and send book object to client user's 
   * 'sentTrades' array property. Then, get other user doc and add book and
@@ -192,8 +192,16 @@ app.post('/user/propose-trade', authenticate, (req, res) => {
           if(!thisUser) {
             return res.status(400).send();
           }
-          
-          res.send(thisUser);
+      }).catch((e) => res.status(400).send(e));
+      
+      // Find client user and add the 'sentTrades' object.
+      User.findByIdAndUpdate(body.clientId, 
+        { $push: { 'trades.sentTrades': resultTrade } },
+        { safe: true, upsert: true, new : true })
+      .then((thisUser) => {
+        if(!thisUser) {
+          return res.status(400).send();
+        }
       }).catch((e) => res.status(400).send(e));
       
       //res.send(resultTrade);
@@ -202,24 +210,13 @@ app.post('/user/propose-trade', authenticate, (req, res) => {
     });
   });
   
-  // 
-  // Find client user and add the 'sentTrades' object.
-  // User.findByIdAndUpdate({ _id: body.clientId }, 
-  //   { $push: { sentTrades: trade } },
-  //   { safe: true, upsert: true, new : true }
-  // ).then((user) => {
-  //   if(!user) {
-  //     return res.status(400).send();
-  //   }
-  //   
-  //   res.send(user);
-  // });
   
   // Redirect to client's profile page.
+  res.redirect('/users/myprofile');
 });
 
 // PATCH /users/myprofile/:id/accept to accept trade requests.
-app.patch('/user/myprofile/:id/accept', authenticate, (req, res) => {
+app.patch('/users/myprofile/:id/accept', authenticate, (req, res) => {
   /*
   * Get client user doc and move the trade request object to 'acceptedTrades'
   * property. Then, get other user doc and move trade bject from 'sentTrades'
