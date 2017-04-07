@@ -49,15 +49,7 @@ let UserSchema = new mongoose.Schema({
     type: Array
   },
   trades: {
-    sentTrades: {
-      type: Array
-    },
-    pendingTrades: {
-      type: Array
-    },
-    acceptedTrades: {
-      type: Array
-    }
+    type: Array
   },
   tokens: [{
     access: {

@@ -163,7 +163,7 @@ app.post('/users/propose-trade', authenticate, (req, res) => {
   */
   
   let body = _.pick(req.body, ['userBook', 'userId', 'clientBook', 'clientId']);
-  //res.send(req.user);
+
   // Create trade object.
   let trade = new Trade({
     sentBook: body.clientBook,
@@ -186,7 +186,7 @@ app.post('/users/propose-trade', authenticate, (req, res) => {
       
       // Find receiving user and add the 'pendingTrades' object.
       User.findByIdAndUpdate(body.userId, 
-        { $push: { 'trades.pendingTrades': resultTrade } },
+        { $push: { trades: resultTrade._id } },
         { safe: true, upsert: true, new : true })
       .then((thisUser) => {
           if(!thisUser) {
@@ -196,12 +196,13 @@ app.post('/users/propose-trade', authenticate, (req, res) => {
       
       // Find client user and add the 'sentTrades' object.
       User.findByIdAndUpdate(body.clientId, 
-        { $push: { 'trades.sentTrades': resultTrade } },
+        { $push: { trades: resultTrade._id } },
         { safe: true, upsert: true, new : true })
       .then((thisUser) => {
         if(!thisUser) {
           return res.status(400).send();
         }
+        res.redirect('/users/myprofile');
       }).catch((e) => res.status(400).send(e));
       
       //res.send(resultTrade);
@@ -209,19 +210,30 @@ app.post('/users/propose-trade', authenticate, (req, res) => {
       res.status(400).send(e);
     });
   });
-  
-  
-  // Redirect to client's profile page.
-  res.redirect('/users/myprofile');
 });
 
-// PATCH /users/myprofile/:id/accept to accept trade requests.
-app.patch('/users/myprofile/:id/accept', authenticate, (req, res) => {
-  /*
-  * Get client user doc and move the trade request object to 'acceptedTrades'
-  * property. Then, get other user doc and move trade bject from 'sentTrades'
-  * to 'acceptedTrades' property.
-  */
+// POST /users/accept-trade to accept a trade from another user.
+app.patch('/users/accept-trade', authenticate, (req, res) => {
+  let body = _.pick(req.body, ['tradeId']);
+  
+  // Find trade by id and set 'status' to 'accepted'.
+  Trade.findByIdAndUpdate(body.tradeId, 
+    { $set: { status: 'accepted' } },
+    { safe: true, upsert: true, new : true })
+  .then((updatedTrade) => {
+    res.send(updatedTrade);
+  });
+});
+
+// POST /users/decline-trade to decline a trade from another user.
+app.patch('/users/decline-trade', authenticate, (req, res) => {
+  // Find trade by id and set 'status' to 'declined'.
+  Trade.findByIdAndUpdate(body.tradeId, 
+    { $set: { status: 'declined' } },
+    { safe: true, upsert: true, new : true })
+  .then((updatedTrade) => {
+    res.send(updatedTrade);
+  });
 });
 
 // DELETE /users/myprofile/token to delete the JWT token 
