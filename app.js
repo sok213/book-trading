@@ -238,7 +238,7 @@ app.patch('/users/decline-trade', authenticate, (req, res) => {
   }).catch((err) => res.status(400).send(err));
 });
 
-// DELETE /users/myprofile/token to delete the JWT token 
+// DELETE /users/myprofile/token to delete the JWT token for logout users.
 app.delete('/users/myprofile/token', authenticate, (req, res) => {
   req.user.removeToken(req.token).then(() => {
     res.status(200).send();
