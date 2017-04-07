@@ -222,18 +222,20 @@ app.patch('/users/accept-trade', authenticate, (req, res) => {
     { safe: true, upsert: true, new : true })
   .then((updatedTrade) => {
     res.send(updatedTrade);
-  });
+  }).catch((err) => res.status(400).send(err));
 });
 
 // POST /users/decline-trade to decline a trade from another user.
 app.patch('/users/decline-trade', authenticate, (req, res) => {
+  let body = _.pick(req.body, ['tradeId']);
+  
   // Find trade by id and set 'status' to 'declined'.
   Trade.findByIdAndUpdate(body.tradeId, 
     { $set: { status: 'declined' } },
     { safe: true, upsert: true, new : true })
   .then((updatedTrade) => {
     res.send(updatedTrade);
-  });
+  }).catch((err) => res.status(400).send(err));
 });
 
 // DELETE /users/myprofile/token to delete the JWT token 
