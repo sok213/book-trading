@@ -1,0 +1,35 @@
+<!-- Page Content -->
+<div class="container">
+  <div class="col-md-6 col-sm-12">
+    <h2 class="page-header">Log In</h2>
+    {{#if success_msg}}
+      <div class="success">
+          {{success_msg}}
+      </div>
+    {{/if}}
+
+    {{#if error_msg}}
+      <div class="error">
+          {{error_msg}}
+      </div>
+    {{/if}}
+
+    {{#if error}}
+      <div class="error">
+          {{error}}
+      </div>
+    {{/if}}
+    <form action="/users/login" method="post">
+      <div class="form-group">
+          <label>E-mail</label>
+          <input type="text" class="form-control" name="email" placeholder="E-mail">
+      </div>
+      <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-success">Log In</button>
+    </form>
+  </div>
+</div>
+<!-- /.container -->

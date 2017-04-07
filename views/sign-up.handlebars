@@ -1,0 +1,33 @@
+<!-- Page Content -->
+<div class="container">
+  <div class="col-md-6 col-sm-12">
+    <h2 class="page-header">Sign Up</h2>
+    {{#if errors}}
+      {{#each errors}}
+        <div class="error">
+          {{msg}}
+        </div>
+      {{/each}}
+    {{/if}}
+    <form method="post" action="/users/register">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-control" placeholder="User name" name="username">
+      </div>
+       <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" placeholder="E-mail" name="email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="Password" name="password">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" class="form-control" placeholder="Password" name="password2">
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>
+<!-- /.container -->

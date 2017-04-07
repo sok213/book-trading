@@ -15,11 +15,26 @@ app            = express(),
 {authenticate} = require('./middleware/authenticate'),
 {ObjectID}     = require('mongodb'),
 {googleBooks}  = require('./controllers/apiController'),
+handleBars     = require('express-handlebars'),
 port           = process.env.PORT || 3000,
 db             = mongoose.connect(config.getDbConnectionString());
 
-// Set views and view engine to HandleBars.
+// Set views and view engine to handleBars.
 app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', handleBars({defaultLayout: 'layout'}));
+app.set('view engine', 'handlebars');
+
+// Set the assets folder.
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Sets Bootstrap and jQuery.
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+
+// Set module folder 
+app.use('/font-awesome', express.static(__dirname + 
+  '/node_modules/font-awesome'));
 
 // Set bodyParser module. 
 app.use(bodyParser.json());
@@ -30,18 +45,25 @@ app.get('/', (req, res) => {
   
   // Find all books posted by every user and send it back to client.
   User.find({}, ['-email', '-city', '-state'], (err, doc) => {
-    res.send(doc);
+    res.render('home', {
+      books: doc
+    });
   });
 });
 
 // Public route for sign up.
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+// Public route for sign up.
 app.get('/signup', (req, res) => {
-  res.send('Sign-up.');
+  res.render('sign-up');
 });
 
 // Private route for profile settings.
 app.get('/users/settings', (req, res) => {
-  res.send('Settings.');
+  res.render('settings');
 });
 
 // Private route for user profile.
@@ -51,7 +73,7 @@ app.get('/users/myprofile', authenticate, (req, res) => {
 
 // Public route for 404 page.
 app.get('*', (req, res) => {
-  res.status(404).send('404.');
+  res.status(404).render('404');
 });
 
 // POST /users for users to create a new account.
@@ -78,7 +100,7 @@ app.post('/users/login', (req, res) => {
       res.header('x-auth', token).send(user);
     });
   }).catch((e) => {
-    res.status(400).send(e);
+    res.status(400).render('404');
   });
 });
 
