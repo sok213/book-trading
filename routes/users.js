@@ -11,17 +11,17 @@ _              = require('lodash'),
 const router = express.Router();
 
 // Private route for profile settings.
-router.get('/users/settings', (req, res) => {
+router.get('/settings', (req, res) => {
   res.render('settings');
 });
 
 // Private route for user profile.
-router.get('/users/myprofile', authenticate, (req, res) => {
+router.get('/myprofile', authenticate, (req, res) => {
   res.send(req.user);
 });
 
 // POST /users/register for users to create a new account.
-router.post('/users/register', (req, res) => {
+router.post('/register', (req, res) => {
   let body = _.pick(req.body, ['email', 'password', 'username']);  
   let user = new User(body);
   
@@ -71,7 +71,7 @@ router.post('/users/register', (req, res) => {
 });
 
 // POST /users/login to sign-in existing users.
-router.post('/users/login', (req, res) => {
+router.post('/login', (req, res) => {
   let body = _.pick(req.body, ['email', 'password']);
   
   User.findByCredentials(body.email, body.password).then((user) => {
@@ -88,7 +88,7 @@ router.post('/users/login', (req, res) => {
 
 // PATCH /users/myprofile/:id to update the user's name, city and state 
 // properties.
-router.patch('/users/myprofile/:id', authenticate,  (req, res) => {
+router.patch('/myprofile/:id', authenticate,  (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['city', 'state', 'name', 'bio']);
   
@@ -112,7 +112,7 @@ router.patch('/users/myprofile/:id', authenticate,  (req, res) => {
 });
 
 // POST /users/myprofile/:id/books to add new books.
-router.post('/users/myprofile/:id/books', authenticate, (req, res) => {
+router.post('/myprofile/:id/books', authenticate, (req, res) => {
   let {bookTitle} = _.pick(req.body, ['bookTitle']);
   let id = req.params.id;
   
@@ -141,7 +141,7 @@ router.post('/users/myprofile/:id/books', authenticate, (req, res) => {
 });
 
 // DELETE /users/myprofile/token to delete the JWT token for logout users.
-router.delete('/users/myprofile/token', authenticate, (req, res) => {
+router.delete('/myprofile/token', authenticate, (req, res) => {
   req.user.removeToken(req.token).then(() => {
     router.locals.user = null;
     res.status(200).redirect('/');
