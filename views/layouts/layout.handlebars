@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                  <i class="fa fa-tree" aria-hidden="true"></i><span style="color: rgb(109, 152, 129)"> knawledge tree </span>
+                  <i class="fa fa-tree" aria-hidden="true"></i><span style="color: rgb(109, 152, 129)"> {{title}} </span>
                 </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -54,7 +54,7 @@
               <ul class="nav navbar-nav navbar-left">
                 <li>
                   {{#if user}}
-                  <a>Welcome, <span style="color: rgb(214, 129, 236); font-size:17px">{{{user.username}}}</span>.</a>
+                  <a>Welcome, <span style="color: rgb(214, 129, 236); font-size:17px"> {{{user.username}}} </span>.</a>
                   {{/if}}
                 </li>
               </ul>

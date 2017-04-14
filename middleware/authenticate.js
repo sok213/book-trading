@@ -2,19 +2,11 @@ const {User} = require('./../models/user');
 
 // Middleware function.
 let authenticate = (req, res, next) => {
-  var token = req.header('x-auth');
+  if(req.isAuthenticated()) {
+    return next();
+  }
   
-  User.findByToken(token).then((user) => {
-    if(!user) {
-      return Promise.reject('No user found.');
-    }
-    
-    req.user = user;
-    req.token = token;
-    next();
-  }).catch((e) => {
-    res.status(401).send();
-  });
+  res.redirect('/users/register');
 };
 
 module.exports = { authenticate };

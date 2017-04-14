@@ -26,7 +26,7 @@ router.post('/register', (req, res) => {
   let user = new User(body);
   
   // Checks if form was properly filled out (validation).
-  req.checkBody('name', 'Name is required').notEmpty();
+  req.checkBody('username', 'Name is required').notEmpty();
   req.checkBody('email', 'Email is required').notEmpty();
   req.checkBody('email', 'Email is not valid').isEmail();
   req.checkBody('username', 'Username is required').notEmpty();
@@ -37,6 +37,10 @@ router.post('/register', (req, res) => {
   // If form was incorrectly filled out, store the errors in 
   // variable errors.
   let errors = req.validationErrors();
+  
+  if(errors) {
+    return res.render('sign-up', { errors });
+  }
   
   // Check if user name already exists.
   User.find({username: body.username}, (err, result) => {
@@ -52,39 +56,32 @@ router.post('/register', (req, res) => {
     
     // Saves user.
     user.save().then(() => {
-      return user.generateAuthToken();
-    }).then((token) => {
-      // Send back the user document after new user is saved.
-      res.header('x-auth', token).redirect('/');
       
       // After new user is created and saved to database, show a success 
       // message via flash() method.
+      req.flash('success_msg', 'You are registered and can now login.');
       
-      //req.flash('success_msg', 'You are registered and can now login.');
-      // redirect to login.handlebars.
-    }).catch((e) => {
-      res.status(400).render('404', {
-        error_msg: e
-      });
+      // Send back the user document after new user is saved.
+      res.redirect('/login');
     });
   });
 });
 
 // POST /users/login to sign-in existing users.
-router.post('/login', (req, res) => {
-  let body = _.pick(req.body, ['email', 'password']);
-  
-  User.findByCredentials(body.email, body.password).then((user) => {
-    router.locals.user = user;
-    return user.generateAuthToken().then((token) => {
-      res.header('x-auth', token).redirect('/');
-    });
-  }).catch((e) => {
-    res.status(400).render('404', {
-      error_msg: e
-    });
-  });
-});
+// router.post('/login', (req, res) => {
+//   let body = _.pick(req.body, ['email', 'password']);
+//   
+//   User.findByCredentials(body.email, body.password).then((user) => {
+//     router.locals.user = user;
+//     return user.generateAuthToken().then((token) => {
+//       res.header('x-auth', token).redirect('/');
+//     });
+//   }).catch((e) => {
+//     res.status(400).render('404', {
+//       error_msg: e
+//     });
+//   });
+// });
 
 // PATCH /users/myprofile/:id to update the user's name, city and state 
 // properties.

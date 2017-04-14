@@ -163,6 +163,26 @@ UserSchema.methods.removeToken = function(token) {
   });
 };
 
+UserSchema.statics.getUserByEmail = function(email, callback) {
+  let User = this;
+  var query = { email: email };
+  User.findOne(query, callback);
+};
+
+UserSchema.statics.comparePassword = function(candidatePassword, hash, callback) 
+{
+  let User = this;
+  bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+    if(err) throw error;
+    callback(null, isMatch);
+  });
+};
+
+UserSchema.statics.getUserById = function(id, callback) {
+  let User = this;
+  User.findById(id, callback);
+};
+
 let User = mongoose.model('User', UserSchema);
 
 module.exports = { User };
