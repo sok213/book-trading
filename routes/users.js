@@ -10,14 +10,14 @@ _              = require('lodash'),
 // Retrieve Modules.
 const router = express.Router();
 
-// Private route for profile settings.
+// Route for profile settings.
 router.get('/settings', (req, res) => {
   res.render('settings');
 });
 
-// Private route for user profile.
+// Route for user profile.
 router.get('/myprofile', authenticate, (req, res) => {
-  res.send(req.user);
+  res.render('myprofile');
 });
 
 // POST /users/register for users to create a new account.

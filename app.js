@@ -62,7 +62,6 @@ app.use(flash());
 
 // Sets local variables to be used with HandleBars views.
 app.use((req, res, next) => {
-  console.log('Setting res.locals variables...');
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
@@ -145,5 +144,12 @@ passport.deserializeUser((id, done) => {
 app.use('/', indexRoute); 
 app.use('/users', usersRoute);
 app.use('/users/trade', tradeRoute);
+
+// Public route for 404 page.
+app.get('*', (req, res) => {
+  res.status(404).render('404', {
+    error_msg: 'Page not found.'
+  });
+});
 
 app.listen(port, () => console.log('Listening on PORT: ', port));
