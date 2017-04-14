@@ -67,22 +67,6 @@ router.post('/register', (req, res) => {
   });
 });
 
-// POST /users/login to sign-in existing users.
-// router.post('/login', (req, res) => {
-//   let body = _.pick(req.body, ['email', 'password']);
-//   
-//   User.findByCredentials(body.email, body.password).then((user) => {
-//     router.locals.user = user;
-//     return user.generateAuthToken().then((token) => {
-//       res.header('x-auth', token).redirect('/');
-//     });
-//   }).catch((e) => {
-//     res.status(400).render('404', {
-//       error_msg: e
-//     });
-//   });
-// });
-
 // PATCH /users/myprofile/:id to update the user's name, city and state 
 // properties.
 router.patch('/myprofile/:id', authenticate,  (req, res) => {
@@ -133,18 +117,6 @@ router.post('/myprofile/:id/books', authenticate, (req, res) => {
         return res.status(404).send();
       }
       res.send(addedBook);
-    });
-  });
-});
-
-// DELETE /users/myprofile/token to delete the JWT token for logout users.
-router.delete('/myprofile/token', authenticate, (req, res) => {
-  req.user.removeToken(req.token).then(() => {
-    router.locals.user = null;
-    res.status(200).redirect('/');
-  }, (e) => {
-    res.status(400).render('404', {
-      error_msg: e
     });
   });
 });

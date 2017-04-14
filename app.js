@@ -1,8 +1,3 @@
-/*
-* Some portions of code in this application are borrowed from 
-* "The Complete NodeJS Course - 2" by Andrew Mead from Udemy.com
-*/
-
 const express  = require('express'),
 path           = require('path'),
 mongoose       = require('mongoose'),

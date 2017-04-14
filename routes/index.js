@@ -37,20 +37,11 @@ router.post('/login', passport.authenticate('local',
     res.redirect('/');
 });
 
-// router.post('/login', (req, res) => {
-//   let body = _.pick(req.body, ['email', 'password']);
-//   
-//   User.findByCredentials(body.email, body.password).then((user) => {
-//     router.locals.user = user;
-//     return user.generateAuthToken().then((token) => {
-//       res.header('x-auth', token).redirect('/');
-//     });
-//   }).catch((e) => {
-//     res.status(400).render('404', {
-//       error_msg: e
-//     });
-//   });
-// });
+// Logout the user.
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 // Public route for 404 page.
 router.get('*', (req, res) => {

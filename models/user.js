@@ -2,7 +2,6 @@ const mongoose = require('mongoose'),
 validator      = require('validator'),
 _              = require('lodash'),
 config         = require('./../config'),
-jwt            = require('jsonwebtoken'),
 bcrypt         = require('bcryptjs');
 
 let UserSchema = new mongoose.Schema({
@@ -50,17 +49,7 @@ let UserSchema = new mongoose.Schema({
   },
   trades: {
     type: Array
-  },
-  tokens: [{
-    access: {
-      type: String,
-      required: true
-    },
-    token: {
-      type: String,
-      required: true
-    }
-  }]
+  }
 });
 
 // Override the toJSON default method to only send back the user id and email
@@ -79,43 +68,6 @@ UserSchema.methods.toJSON = function() {
       'username',
       'trades'
     ]);
-};
-
-UserSchema.methods.generateAuthToken = function() {
-  let user = this,
-  access   = 'auth';
-  // Generate and set the token to user instance.
-  let token = jwt.sign({
-    _id: user._id.toHexString(), 
-    access
-  }, config.JWT_SECRET).toString();
-  
-  user.tokens.push({ access, token });
-  
-  // We return this save method so that app.js can chain on a promise.
-  return user.save().then(() => {
-    // Return token back to app.js so that we can grab the token via a 
-    // then() callback and responding there.
-    return token;
-  });
-};
-
-UserSchema.statics.findByToken = function(token) {
-  let User = this;
-  let decoded;
-  
-  try {
-    decoded = jwt.verify(token, config.JWT_SECRET);
-  } catch(e) {
-    return Promise.reject();
-  }
-  
-  return User.findOne({
-    _id: decoded._id,
-    'tokens.token': token,
-    'tokens.access': 'auth'
-  });
-  
 };
 
 UserSchema.pre('save', function(next) {
