@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../css/mybookshelf.css">
 <div class="container">
   <div class="col-md-6 col-lg-6">
     
@@ -7,9 +8,14 @@
         <div class="form-group">
           <label>Provide a book title to add a book to your library.</label>
           {{#if error_msg}}
-          <div class="error_msg">
+          <div class="error">
             <strong>Error: {{error_msg}}</strong>
           </div>
+          {{/if}}
+          {{#if success_msg}}
+            <div class="success">
+                {{success_msg}}
+            </div>
           {{/if}}
           <input type="text" class="form-control" placeholder="Book title" name="bookTitle">
         </div>
@@ -44,5 +50,3 @@
     </div>
   </div>
 </div>
-
-<link rel="stylesheet" href="../css/mybookshelf.css">

@@ -18,7 +18,12 @@ label {
   margin-right: 7px;
 }
 
-.error_msg {
+.error {
   color: rgb(204, 69, 69);
+  margin-bottom: 5px;
+}
+
+.success {
+  color: rgb(71, 168, 62);
   margin-bottom: 5px;
 }

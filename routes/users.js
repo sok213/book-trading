@@ -36,6 +36,15 @@ router.post('/register', (req, res) => {
   req.checkBody('password2', 'Passwords do not match')
     .equals(req.body.password);
     
+  req.checkBody({
+    'password': {
+      isLength: {
+        options: [{ min: 4 }],
+        errorMessage: 'Password must be at least 4 characters long.'
+      }
+    }
+  });
+    
   // If form was incorrectly filled out, store the errors in 
   // variable errors.
   let errors = req.validationErrors();
@@ -103,15 +112,16 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
       return res.status(400).send();
     }
     
-    if(!book) {
-      return res.render('mybookshelf', {
-        error_msg: 'Book title was not found in database.'
-      });
+    if(!book || !book[0] || !book[0].volumeInfo.title || !book[0].volumeInfo.imageLinks.thumbnail
+      || !book[0].volumeInfo.authors
+    ) {
+      req.flash('error_msg', 'Book title was not found in the database.');
+      return res.redirect('/users/mybookshelf');
     }
-    
+
     let newBook = {
       title: book[0].volumeInfo.title,
-      author: book[0].volumeInfo.authors.join(', '),
+      author:  book[0].volumeInfo.authors.join(', '),
       thumbnail: book[0].volumeInfo.imageLinks.thumbnail,
       owner: res.locals.user.username
     };
@@ -124,7 +134,8 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
       if(!addedBook) {
         return res.status(404).send();
       }
-      res.send(addedBook);
+      req.flash('success_msg', 'You have successfully added a book to your shelf.');
+      res.redirect('/users/mybookshelf');
     });
   });
 });

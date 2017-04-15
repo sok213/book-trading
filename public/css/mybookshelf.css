@@ -6,8 +6,7 @@
 
 .book-item {
   display: inline-block;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin: 5px;
   -webkit-box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.58);
   -moz-box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.58);
   box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.58);
