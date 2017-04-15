@@ -1,0 +1,31 @@
+.book-item {
+  text-align: center;
+  color: rgb(59, 59, 59);
+  min-height: 300px;
+  min-width: 200px;
+  padding: 10px;
+  display: inline-block;
+}
+
+  .book-desc {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .book-container {
+    background-color: white;
+    -webkit-box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.58);
+    -moz-box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.58);
+    box-shadow: 1px 1px 6px 0px rgba(0,0,0,0.58);
+  }
+  
+.btn-primary {
+  width: 100%;
+  border-radius: 0px;
+}
+  
+@media (max-width: 471px) {
+  .book-item {
+    width: 100%;
+  }
+}

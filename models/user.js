@@ -27,7 +27,7 @@ let UserSchema = new mongoose.Schema({
     minlength: 1,
     unique: true
   },
-  name: {
+  fullname: {
     type: String,
     minlength: 1
   },

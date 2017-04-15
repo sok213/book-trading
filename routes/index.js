@@ -10,8 +10,16 @@ const router = express.Router();
 router.get('/', (req, res) => {
   // Find all books posted by every user and send it back to client.
   User.find({}, ['-email', '-city', '-state'], (err, doc) => {
+    // Store all books in allBooks array.
+    let allBooks = doc.map((item) => {
+      return item.books;
+    });
+    // Flatten the multi-dimensional array.
+    allBooks = [].concat.apply([], allBooks);
+    
+    console.log(allBooks);
     res.render('explore', {
-      books: doc
+      books: allBooks
     });
   });
 });

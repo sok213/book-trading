@@ -16,8 +16,8 @@ router.get('/settings', (req, res) => {
 });
 
 // Route for user profile.
-router.get('/myprofile', authenticate, (req, res) => {
-  res.render('myprofile');
+router.get('/mybookshelf', authenticate, (req, res) => {
+  res.render('mybookshelf');
 });
 
 // POST /users/register for users to create a new account.
@@ -67,9 +67,9 @@ router.post('/register', (req, res) => {
   });
 });
 
-// PATCH /users/myprofile/:id to update the user's name, city and state 
+// PATCH /users/profile/:id to update the user's name, city and state 
 // properties.
-router.patch('/myprofile/:id', authenticate,  (req, res) => {
+router.patch('/profile/:id', authenticate,  (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['city', 'state', 'name', 'bio']);
   
@@ -92,10 +92,9 @@ router.patch('/myprofile/:id', authenticate,  (req, res) => {
   });
 });
 
-// POST /users/myprofile/:id/books to add new books.
-router.post('/myprofile/:id/books', authenticate, (req, res) => {
+// POST /users/mybookshelf/books to add new books.
+router.post('/mybookshelf/books', authenticate, (req, res) => {
   let {bookTitle} = _.pick(req.body, ['bookTitle']);
-  let id = req.params.id;
   
   googleBooks(bookTitle, (err, book) => {
     if(err) {
@@ -105,11 +104,12 @@ router.post('/myprofile/:id/books', authenticate, (req, res) => {
     let newBook = {
       title: book[0].volumeInfo.title,
       author: book[0].volumeInfo.authors.join(', '),
-      thumbnail: book[0].volumeInfo.imageLinks.thumbnail
+      thumbnail: book[0].volumeInfo.imageLinks.thumbnail,
+      owner: res.locals.user.username
     };
     
     // Push in the new book into the user's book property array.
-    User.findByIdAndUpdate(id, 
+    User.findByIdAndUpdate(res.locals.user.id, 
       { $push: {books: newBook} }, 
       { safe: true, upsert: true, new : true })
     .then((addedBook) => {

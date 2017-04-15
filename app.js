@@ -66,7 +66,7 @@ app.use((req, res, next) => {
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
-  res.locals.title = 'the knawledge tree';
+  res.locals.title = 'BookShelf';
   res.locals.getLength = (trades) => {
     return trades.length;
   };
