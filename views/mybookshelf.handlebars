@@ -1,12 +1,48 @@
 <div class="container">
   <div class="col-md-6 col-lg-6">
-    <h2>Add a book.</h2>
-    <form method="post" action="/users/mybookshelf/books">
-      <div class="form-group">
-        <label>Book title</label>
-        <input type="text" class="form-control" placeholder="Book title" name="bookTitle">
-      </div>
-      <button type="submit" class="btn btn-success">Add book</button>
-    </form>
+    
+    <div class="section">
+      <h2>Add Books.</h2>
+      <form method="post" action="/users/mybookshelf/books">
+        <div class="form-group">
+          <label>Provide a book title to add a book to your library.</label>
+          {{#if error_msg}}
+          <div class="error_msg">
+            <strong>Error: {{error_msg}}</strong>
+          </div>
+          {{/if}}
+          <input type="text" class="form-control" placeholder="Book title" name="bookTitle">
+        </div>
+        <button type="submit" class="btn btn-success">Add book</button>
+      </form>
+    </div>
+    
+    <div class="section">
+      <h2>My Book Collection</h2>
+        {{#each myBooks}}
+          <div class="book-item">
+            <img src={{this.thumbnail}} alt="Book cover image">
+            <div class="book-desc">
+              <em>{{this.title}}</em><br>
+              by {{this.author}} <br>
+            </div>
+            
+            <button type="button" class="btn btn-danger">Remove</button>
+          </div>
+        {{/each}}
+    </div>
+    
+  </div>
+  
+  <div class="col-md-6 col-lg-6">
+    <div class="section">
+      <h2>Trade Requests</h2>
+    </div>
+    
+    <div class="section">
+      <h2>Sent Requests</h2>
+    </div>
   </div>
 </div>
+
+<link rel="stylesheet" href="../css/mybookshelf.css">

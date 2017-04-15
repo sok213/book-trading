@@ -8,7 +8,17 @@ html, body {
 body {
  overflow-y: hidden;
 }
+
+label {
+  color: rgb(121, 121, 121);
+  font-weight: 300;
+}
  
 .navbar-nav i {
   margin-right: 7px;
+}
+
+.error_msg {
+  color: rgb(204, 69, 69);
+  margin-bottom: 5px;
 }

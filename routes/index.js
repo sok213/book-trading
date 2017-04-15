@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
     // Flatten the multi-dimensional array.
     allBooks = [].concat.apply([], allBooks);
     
-    console.log(allBooks);
     res.render('explore', {
       books: allBooks
     });

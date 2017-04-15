@@ -17,7 +17,9 @@ router.get('/settings', (req, res) => {
 
 // Route for user profile.
 router.get('/mybookshelf', authenticate, (req, res) => {
-  res.render('mybookshelf');
+  res.render('mybookshelf', {
+    myBooks: res.locals.user.books
+  });
 });
 
 // POST /users/register for users to create a new account.
@@ -99,6 +101,12 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
   googleBooks(bookTitle, (err, book) => {
     if(err) {
       return res.status(400).send();
+    }
+    
+    if(!book) {
+      return res.render('mybookshelf', {
+        error_msg: 'Book title was not found in database.'
+      });
     }
     
     let newBook = {
