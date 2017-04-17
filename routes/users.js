@@ -151,11 +151,13 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
 router.post('/mybookshelf/books/remove', authenticate, (req, res) => {
   let bookId = mongoose.Types.ObjectId(req.body.bookId);
   
-  // Remove a book from the user's book property array.
+  // Push in the new book into the user's book property array.
   User.findByIdAndUpdate(res.locals.user.id, 
     { $pull: { books: { id: bookId }} }, 
-    { safe: true, upsert: true, new : true }
-  );
+    { safe: true, upsert: true, new : true })
+  .then(() => {
+    console.log('Removed: ', bookId);
+  });
 });
 
 // Export the router methods.
