@@ -1,3 +1,59 @@
+<link rel="stylesheet" href="../css/settings.css">
 <div class="container">
-  <h1>Settings</h1>
+  <h1>Update your profile information.</h1>
+  
+  <div class="section col-md-6 col-lg-6">
+    <h2>Change your name</h2>
+    <form method="post" action="/users/settings">
+      <div class="form-group">
+        <label>Provide your first name</label>
+        <input type="text" class="form-control" placeholder="First Name" name="firstName">
+        <label>Provide your last name</label>
+        <input type="text" class="form-control" placeholder="Last name" name="lastName">
+      </div>
+      <button type="submit" class="btn btn-success">Save name changes</button>
+    </form>
+  </div>
+  
+  <div class="section col-md-6 col-lg-6">
+    <h2>Set your location</h2>
+    <form method="post" action="/users/settings">
+      <div class="form-group">
+        {{#if error_msg}}
+        <div class="error">
+          <strong>Error: {{error_msg}}</strong>
+        </div>
+        {{/if}}
+        {{#if success_msg}}
+          <div class="success">
+              {{success_msg}}
+          </div>
+        {{/if}}
+        <label>Provide a city</label>
+        <input type="text" class="form-control" placeholder="City" name="city">
+        <label>Provide a State</label>
+        <input type="text" class="form-control" placeholder="State" name="state">
+      </div>
+      <button type="submit" class="btn btn-success">Save location changes</button>
+    </form>
+  </div>
+  
+  <div class="section col-md-6 col-lg-6">
+    <h2>Add a bio</h2>
+    <form method="post" action="/users/settings">
+      <div class="form-group">
+        <label>Provide a description about yourself.</label>
+        <textarea rows="4" cols="50" placeholder="Write about yourself!" name="bio"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Save bio changes</button>
+    </form>
+  </div>
+  
+  <div class="section col-md-6 col-lg-6" id="last">
+    <h2>Delete your account</h2>
+    <label>Warning! Once deleted, cannot be undone.</label>
+    <form method="post" action="/users/delete">
+      <button type="submit" class="btn btn-danger">Delete account</button>
+    </form>
+  </div>
 </div>

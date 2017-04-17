@@ -3,6 +3,7 @@ html, body {
   padding: 0px;
   border: 0px;
   overflow-x: hidden;
+  background-color: white;
 }
 
 body {
@@ -13,9 +14,58 @@ label {
   color: rgb(121, 121, 121);
   font-weight: 300;
 }
+
+#explore {
+  border-top: 2px solid #6CCFF6;
+}
+
+.icon-bar {
+  background-color: white !important;
+}
+
+.navbar-toggle {
+  background-color: #114B5F !important;
+}
+
+.navbar-toggle:hover {
+  background-color: #208e6d !important;
+}
+
+.navbar-default {
+  padding-top: 10px;
+  height: 70px;
+  background-color: #1A936F;
+  border-radius: 0px;
+  border-top: thin solid black;
+}
+
+.navbar-collapse, .navbar-default {
+  z-index: 1;
+  border-left: none;
+  border-right: none;
+  background-color: #1A936F;
+}
+
+.navbar-collapse {
+  padding-left: 20px;
+}
  
+.navbar-brand, .navbar-nav i, .navbar-nav a, .navbar-default {
+  color: #C6DABF !important;
+  transition: 0.2s;
+}
+
+.navbar-nav a:hover {
+  color: #9fbf93 !important;
+}
+
 .navbar-nav i {
   margin-right: 7px;
+}
+
+.activated {
+  background-color: none !important;
+  border-top: 2px solid #6CCFF6;
 }
 
 .error {

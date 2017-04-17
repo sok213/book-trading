@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/">
-                  <span style="color: rgb(109, 152, 129)"> {{title}} </span>
+                  {{title}}
                 </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -54,30 +54,30 @@
               <ul class="nav navbar-nav navbar-left">
                 <li>
                   {{#if user}}
-                  <a>Welcome, <span style="color: rgb(214, 129, 236); font-size:17px"> {{{user.username}}}</span>.</a>
+                  <a><span style="color: #D1FAFF; font-size:17px">Welcome, {{{user.username}}}</span>.</a>
                   {{/if}}
                 </li>
               </ul>
               
                 <ul class="nav navbar-nav navbar-right">
                     {{#if user}}
-                    <li>
-                        <a href="/"><i class="fa fa-compass" aria-hidden="true"></i>Explore</a>
+                    <li id="explore" class="nav-btn">
+                        <a onclick="addActivatedClass('explore')" href="/"><i class="fa fa-compass" aria-hidden="true"></i>Explore</a>
                     </li>
-                    <li>
-                        <a href="/users/mybookshelf"><i class="fa fa-book" aria-hidden="true"></i>Bookshelf</a>
+                    <li id="bookshelf" class="nav-btn">
+                        <a href="/users/mybookshelf"><i class="fa fa-book" aria-hidden="true"></i>My bookshelf</a>
                     </li>
-                    <li>
+                    <li id="settings" class="nav-btn">
                         <a href="/users/settings"><i class="fa fa-sliders" aria-hidden="true"></i>Settings</a>
                     </li>
-                    <li>
+                    <li id="logOut" class="nav-btn">
                         <a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a>
                     </li>
                     {{else}}
-                    <li>
+                    <li id="logIn" class="nav-btn">
                         <a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a>
                     </li>
-                    <li>
+                    <li id="signUp">
                       <a href="/signup"><i class="fa fa-user-plus" aria-hidden="true"></i>Sign up</a>
                     </li>
                     {{/if}}

@@ -83,9 +83,9 @@ router.post('/register', (req, res) => {
   });
 });
 
-// PATCH /users/profile/:id to update the user's name, city and state 
+// POST /users/settings to update the user's name, city and state 
 // properties.
-router.patch('/profile/:id', authenticate,  (req, res) => {
+router.post('/settings', authenticate,  (req, res) => {
   let id = req.params.id;
   let body = _.pick(req.body, ['city', 'state', 'name', 'bio']);
   

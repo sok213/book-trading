@@ -21,3 +21,11 @@
 .section {
   width: 100%;
 }
+
+#bookshelf {
+  border-top: 2px solid #6CCFF6;
+}
+
+#explore {
+  border-top: none !important;
+}
