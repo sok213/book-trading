@@ -1,5 +1,6 @@
 // Default Modules.
 const express  = require('express'),
+mongoose       = require('mongoose'),
 _              = require('lodash'),
 {User}         = require('./../models/user'),
 {Trade}        = require('./../models/trade'),
@@ -18,7 +19,12 @@ router.get('/settings', (req, res) => {
 // Route for user profile.
 router.get('/mybookshelf', authenticate, (req, res) => {
   res.render('mybookshelf', {
-    myBooks: res.locals.user.books
+    myBooks: res.locals.user.books,
+    helpers: {
+      convertjson: function(context) {
+        return JSON.stringify(context);
+      } 
+    }
   });
 });
 
@@ -35,7 +41,6 @@ router.post('/register', (req, res) => {
   req.checkBody('password', 'Password is required').notEmpty();
   req.checkBody('password2', 'Passwords do not match')
     .equals(req.body.password);
-    
   req.checkBody({
     'password': {
       isLength: {
@@ -112,8 +117,8 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
       return res.status(400).send();
     }
     
-    if(!book || !book[0] || !book[0].volumeInfo.title || !book[0].volumeInfo.imageLinks.thumbnail
-      || !book[0].volumeInfo.authors
+    if(!book || !book[0] || !book[0].volumeInfo.title ||
+      !book[0].volumeInfo.imageLinks.thumbnail || !book[0].volumeInfo.authors
     ) {
       req.flash('error_msg', 'Book title was not found in the database.');
       return res.redirect('/users/mybookshelf');
@@ -123,7 +128,8 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
       title: book[0].volumeInfo.title,
       author:  book[0].volumeInfo.authors.join(', '),
       thumbnail: book[0].volumeInfo.imageLinks.thumbnail,
-      owner: res.locals.user.username
+      owner: res.locals.user.username,
+      id: mongoose.Types.ObjectId()
     };
     
     // Push in the new book into the user's book property array.
@@ -134,10 +140,22 @@ router.post('/mybookshelf/books', authenticate, (req, res) => {
       if(!addedBook) {
         return res.status(404).send();
       }
-      req.flash('success_msg', 'You have successfully added a book to your shelf.');
+      req.flash('success_msg', 
+        'You have successfully added a book to your shelf.');
       res.redirect('/users/mybookshelf');
     });
   });
+});
+
+// POST /users/mybookshelf/books/remove to remove a book from user's library.
+router.post('/mybookshelf/books/remove', authenticate, (req, res) => {
+  let bookId = mongoose.Types.ObjectId(req.body.bookId);
+  
+  // Remove a book from the user's book property array.
+  User.findByIdAndUpdate(res.locals.user.id, 
+    { $pull: { books: { id: bookId }} }, 
+    { safe: true, upsert: true, new : true }
+  );
 });
 
 // Export the router methods.

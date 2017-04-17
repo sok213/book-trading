@@ -6,6 +6,14 @@ passport       = require('passport');
 // Retrieve Modules.
 const router = express.Router();
 
+// Set locals variables on router.
+router.use((req, res, next) => {
+  res.locals.convertjson = (context) => {
+    return JSON.stringify(context).replace(/'|&/g, '');
+  };
+  next(); 
+});
+
 // Public route for home page.
 router.get('/', (req, res) => {
   // Find all books posted by every user and send it back to client.
@@ -35,7 +43,7 @@ router.get('/signup', (req, res) => {
 
 // POST /login to sign-in existing users.
 router.post('/login', passport.authenticate('local', 
-  { successRedirect: '/', 
+  { successRedirect: '/users/mybookshelf', 
     failureRedirect: '/login', 
     failureFlash: true
   }), 
