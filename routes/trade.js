@@ -1,6 +1,7 @@
 // Default Modules.
 const express       = require('express'),
 _                   = require('lodash'),
+mongoose            = require('mongoose'),
 {User}              = require('./../models/user'),
 {Trade}             = require('./../models/trade'),
 {authenticate}      = require('./../middleware/authenticate'),
@@ -15,14 +16,26 @@ const router = express.Router();
 router.post('/propose-trade/create', authenticateTrade, (req, res) => {
   // Store the book object that the client wants to trade for and the id of
   // the receiving user.
-  let userBook = req.body.selectedBook;
-  let ownerUsername = req.body.ownerUsername;
+  let selectedBook = req.body.selectedBook;
   let userId = res.locals.user.id;
   
-  console.log(userBook, ownerUsername);
-  
-  // Render a view with the above parameter to be injected into a POST
-  // request.
+  // Find the selected book via Id and send the object to 
+  // create-trade.handlebars.
+  User.findOne({'books.id': mongoose.Types.ObjectId(JSON.parse(selectedBook))}, 
+    {'books.$': 1}, (err, doc) => {
+    if(err) {
+      return res.status(400).render('404', { error: err });
+    }
+    res.render('create-trade', {
+      selectedBook: doc.books[0],
+      myBooks: res.locals.user.books,
+      helpers: {
+        convertjson: function(context) {
+          return JSON.stringify(context);
+        } 
+      }
+    });
+  });
   
   // User will choose a book from their library. User's book and client book
   // will merge into a 'sentTrades' object for the user and a 'pendingTrades'

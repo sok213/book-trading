@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="../../../css/explore.css">
+<link rel="stylesheet" href="../../../css/create-trade.css">
+<div class="container">
+  <h1>Choose a book from your library to trade. <i class="fa fa-exchange" aria-hidden="true"></i></h1>
+  <div class="col-md-6 col-lg-6 col-sm-12">
+    <h3>Requested Book</h3>
+    
+    <div class="book-item col-md-3 col-lg-3 col-xl-3">
+      <div class="book-container">
+        <img src={{selectedBook.thumbnail}} alt="Book cover image">
+        <div class="book-desc spaced-margin-bottom">
+          <em>{{selectedBook.title}}</em><br>
+          by {{selectedBook.author}} <br>
+          <small>Owned by <a href="#"><span style="color: rgb(41, 156, 56);">{{selectedBook.owner}}</span></a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-6 col-sm-12">
+    <h3>Choose a book from your bookshelf.</h3>
+    
+    <div class="section-header">
+      <h2>My Book Collection</h2>
+    </div>
+    
+    <div class="section">
+        {{#each myBooks}}
+          <div class="book-item" id={{this.id}}>
+            <div class="book-container">
+              <img src={{this.thumbnail}} alt="Book cover image">
+              <div class="book-desc">
+                <em>{{this.title}}</em><br>
+                by {{this.author}} <br>
+              </div>
+              
+              <button type="button" class="btn btn-primary">Trade this book</button>
+            </div>
+          </div>
+        {{/each}}
+    </div>
+  </div>
+</div>
