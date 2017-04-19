@@ -23,8 +23,11 @@
       </form>
     </div>
     
-    <div class="section">
-      <h2>My Book Collection</h2>
+    <div class="section-header">
+      <h2 id="white-text">My Book Collection</h2>
+    </div>
+    
+    <div class="section collection">
         {{#each myBooks}}
           <div class="book-item" id={{this.id}}>
             <img src={{this.thumbnail}} alt="Book cover image">
