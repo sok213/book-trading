@@ -83,26 +83,87 @@ router.post('/register', (req, res) => {
   });
 });
 
-// POST /users/settings to update the user's name, city and state 
-// properties.
-router.post('/settings', authenticate,  (req, res) => {
-  let id = req.params.id;
-  let body = _.pick(req.body, ['city', 'state', 'name', 'bio']);
+// POST /users/settings/setname to update the user's first and last name.
+router.post('/settings/setname', authenticate,  (req, res) => {
+  let id = res.locals.user.id;
+  let body = _.pick(req.body, ['firstName', 'lastName']);
   
-  if(!ObjectID.isValid(id)) {
-    return res.status(404).send();
+  // Check if form was not left empty.
+  req.checkBody('firstName', 'Must provide a first name.').notEmpty();
+  req.checkBody('lastName', 'Must provide a last name.').notEmpty();
+  
+  let errors = req.validationErrors();
+  
+  if(errors) {
+    return res.render('settings', { errors });
   }
   
-  if(id !== req.user.id) {
-    return status(401).send();
-  }
-  
-  User.findByIdAndUpdate(id, { $set: body }, { new: true }).then((user) => {
+  User.findByIdAndUpdate(id, 
+    { $set: { fullName: body } }, 
+    { new: true }).then((user) => {
     if(!user) {
-      return res.status(404).send();
+      return res.status(404).send('No user found.');
     }
     
-    res.send(user);
+    req.flash('success_msg', 'You have successfully set your name.');
+    res.redirect('/users/settings');
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+// POST /users/settings/setlocation to update user's city and state.
+router.post('/settings/setlocation', authenticate, (req, res) => {
+  let id = res.locals.user.id;
+  let body = _.pick(req.body, ['city', 'state']);
+  
+  // Check if form was not left empty.
+  req.checkBody('city', 'Must provide a city.').notEmpty();
+  req.checkBody('state', 'Must provide a state.').notEmpty();
+  
+  let errors = req.validationErrors();
+  
+  if(errors) {
+    return res.render('settings', { errors });
+  }
+  
+  User.findByIdAndUpdate(id, 
+    { $set: { city: body.city, state: body.state } }, 
+    { new: true }).then((user) => {
+    if(!user) {
+      return res.status(404).send('No user found.');
+    }
+    
+    req.flash('success_msg', 'You have successfully set your location.');
+    res.redirect('/users/settings');
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+// POST /users/settings/setbio to update user's bio
+router.post('/settings/setbio', authenticate, (req, res) => {
+  let id = res.locals.user.id;
+  let body = _.pick(req.body, ['bio']);
+  
+  // Check if form was not left empty.
+  req.checkBody('bio', 'Unable to sumbit empty bio.').notEmpty();
+  
+  let errors = req.validationErrors();
+  
+  if(errors) {
+    return res.render('settings', { errors });
+  }
+  
+  User.findByIdAndUpdate(id, 
+    { $set: { bio: body.bio } }, 
+    { new: true }).then((user) => {
+    if(!user) {
+      return res.status(404).send('No user found.');
+    }
+    
+    req.flash('success_msg', 'You have successfully set your bio.');
+    res.redirect('/users/settings');
   }).catch((e) => {
     res.status(400).send();
   });

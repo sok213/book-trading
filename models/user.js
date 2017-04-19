@@ -27,9 +27,13 @@ let UserSchema = new mongoose.Schema({
     minlength: 1,
     unique: true
   },
-  fullname: {
-    type: String,
-    minlength: 1
+  fullName: {
+    firstName: {
+      type: String
+    },
+    lastName: {
+      type: String
+    }
   },
   city: {
     type: String,
@@ -66,7 +70,8 @@ UserSchema.methods.toJSON = function() {
       'state', 
       'books', 
       'username',
-      'trades'
+      'trades',
+      'fullName'
     ]);
 };
 
