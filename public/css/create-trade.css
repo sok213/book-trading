@@ -1,16 +1,18 @@
 .section {
   border: thin solid rgb(114, 156, 205);
-  border-top: thin solid rgb(66, 106, 133);
+  border-top: thin solid rgb(51, 78, 97);
   color: rgb(26, 60, 71);
   border-radius: 0px 0px 10px 10px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 10px;
-  background-color: rgb(177, 147, 136);
+  background-color: rgb(200, 168, 156);
   border-left: thin solid rgb(168, 168, 168);
   -webkit-box-shadow: inset 1px 1px 7px 1px rgba(0,0,0,0.68);
   -moz-box-shadow: inset 1px 1px 7px 1px rgba(0,0,0,0.68);
   box-shadow: inset 1px 1px 7px 1px rgba(0,0,0,0.68);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .section-header {
@@ -18,8 +20,7 @@
   border-top: thin solid rgb(168, 168, 168);
   border-left: thin solid rgb(168, 168, 168);
   width: 100%;
-  background-color: rgb(49, 75, 92);
-  color: white;
+  background-color: rgb(64, 100, 124);
   height: 80px;
   margin-bottom: -10px;
   border-radius: 5px 5px;
@@ -27,3 +28,7 @@
   padding-right: 10px;
   padding-top: 1px;
 }
+
+  #white-text {
+    color: white !important;
+  }

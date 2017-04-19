@@ -12,6 +12,8 @@
 
     <!-- Google Fonts-->
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display+SC:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
@@ -51,16 +53,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               
-              <ul class="nav navbar-nav navbar-left">
-                <li>
-                  {{#if user}}
-                  <a><span style="color: #D1FAFF; font-size:17px">Welcome, {{{user.username}}}</span>.</a>
-                  {{/if}}
-                </li>
-              </ul>
-              
                 <ul class="nav navbar-nav navbar-right">
                     {{#if user}}
+                    <li>
+                      <a><span style="color: #D1FAFF; font-size:17px">Welcome, {{{user.username}}}</span>.</a>
+                    </li>
                     <li id="explore" class="nav-btn">
                         <a href="/"><i class="fa fa-compass" aria-hidden="true"></i>Explore</a>
                     </li>

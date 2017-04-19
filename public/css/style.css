@@ -6,6 +6,16 @@ html, body {
   background-color: white;
 }
 
+h1, h2 {
+  font-family: 'Playfair Display SC', serif;
+  color: rgb(68, 68, 68);
+}
+
+h3 {
+  font-family: 'Josefin Sans', sans-serif;
+  color: rgb(105, 105, 105);
+}
+
 body {
  overflow-y: hidden;
 }
@@ -86,4 +96,10 @@ label {
 .success {
   color: rgb(71, 168, 62);
   margin-bottom: 5px;
+}
+
+@media (max-width: 994px) {
+  .navbar-brand {
+    font-size: 20px;
+  }
 }
