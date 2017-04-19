@@ -25,6 +25,12 @@
   width: 100%;
   border-radius: 0px;
 }
+
+.propose-form input {
+  visibility: hidden;
+  height: 0px;
+  width: 0px;
+}
   
 @media (max-width: 471px) {
   .book-item {

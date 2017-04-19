@@ -6,14 +6,6 @@ passport       = require('passport');
 // Retrieve Modules.
 const router = express.Router();
 
-// Set locals variables on router.
-router.use((req, res, next) => {
-  res.locals.convertjson = (context) => {
-    return JSON.stringify(context).replace(/'|&/g, '');
-  };
-  next(); 
-});
-
 // Public route for home page.
 router.get('/', (req, res) => {
   // Find all books posted by every user and send it back to client.
@@ -26,7 +18,12 @@ router.get('/', (req, res) => {
     allBooks = [].concat.apply([], allBooks);
     
     res.render('explore', {
-      books: allBooks
+      books: allBooks,
+      helpers: {
+        convertjson: function(context) {
+          return JSON.stringify(context);
+        } 
+      }
     });
   });
 });

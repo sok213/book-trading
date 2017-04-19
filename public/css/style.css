@@ -15,6 +15,12 @@ label {
   font-weight: 300;
 }
 
+#logo {
+  height: 50px;
+  width: 50px;
+  margin-top: -17px;
+}
+
 #explore {
   border-top: 2px solid #6CCFF6;
 }
@@ -55,6 +61,11 @@ label {
   transition: 0.2s;
 }
 
+.navbar-brand {
+  font-family: 'Abril Fatface', cursive;
+  font-size: 35px;
+}
+
 .navbar-nav a:hover {
   color: #9fbf93 !important;
 }
@@ -64,7 +75,6 @@ label {
 }
 
 .activated {
-  background-color: none !important;
   border-top: 2px solid #6CCFF6;
 }
 

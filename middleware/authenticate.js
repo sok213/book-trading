@@ -6,7 +6,17 @@ let authenticate = (req, res, next) => {
     return next();
   }
   
-  res.redirect('/users/register');
+  res.redirect('/signup');
 };
 
-module.exports = { authenticate };
+let authenticateTrade = (req, res, next) => {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  
+  res.render('sign-up', {
+    error: 'Sign-up to start proposing trades with other users.'
+  });
+};
+
+module.exports = { authenticate, authenticateTrade };

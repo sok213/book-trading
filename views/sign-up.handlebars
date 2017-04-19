@@ -9,6 +9,11 @@
         </div>
       {{/each}}
     {{/if}}
+    {{#if error}}
+      <div class="error">
+        {{error}}
+      </div>
+    {{/if}}
     <form method="post" action="/users/register">
       <div class="form-group">
         <label>Username</label>

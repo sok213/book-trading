@@ -1,21 +1,25 @@
 // Default Modules.
-const express  = require('express'),
-_              = require('lodash'),
-{User}         = require('./../models/user'),
-{Trade}        = require('./../models/trade'),
-{authenticate} = require('./../middleware/authenticate');
+const express       = require('express'),
+_                   = require('lodash'),
+{User}              = require('./../models/user'),
+{Trade}             = require('./../models/trade'),
+{authenticate}      = require('./../middleware/authenticate'),
+{authenticateTrade} = require('./../middleware/authenticate');
 
 // Retrieve Modules.
 const router = express.Router();
 
-// GET /users/trade/:id/:userBook to allow the client to select a book
+// GET /users/trade/propose-trade/create to allow the client to select a book
 // from the their library and send it to the POST request which creates a 
 // sent trade.
-router.get('/:id/:userBook', authenticate, (req, res) => {
+router.post('/propose-trade/create', authenticateTrade, (req, res) => {
   // Store the book object that the client wants to trade for and the id of
   // the receiving user.
-  let userBook = req.params.selectedBook;
-  let userId = req.params.id;
+  let userBook = req.body.selectedBook;
+  let ownerUsername = req.body.ownerUsername;
+  let userId = res.locals.user.id;
+  
+  console.log(userBook, ownerUsername);
   
   // Render a view with the above parameter to be injected into a POST
   // request.
@@ -26,7 +30,7 @@ router.get('/:id/:userBook', authenticate, (req, res) => {
 });
 
 // POST /users/propose-trade to propose a trade to another user.
-router.post('/propose-trade', authenticate, (req, res) => {
+router.post('/propose-trade/send', authenticate, (req, res) => {
   /*
   * Get client user doc and add book and send book object to client user's 
   * 'sentTrades' array property. Then, get other user doc and add book and

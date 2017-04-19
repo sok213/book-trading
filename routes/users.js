@@ -62,7 +62,7 @@ router.post('/register', (req, res) => {
   User.find({username: body.username}, (err, result) => {
     if(err) throw err;
     if(result[0]) {
-      return res.render('register', {
+      return res.render('sign-up', {
         errors: [{msg: 'Username already exists!'}]
       });
     }
