@@ -51,9 +51,15 @@
           <p><strong>Book offered:</strong> <em>{{this.sentBook.title}}</em> by {{this.sentBook.author}}</p>
           <p><strong>Book asking:</strong> <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
           <p><strong>Sent from:</strong> {{this.sentFrom.username}}</p>
-          <form action="index.html" method="post">
-            <button type="button" class="btn btn-primary" name="button">Accept</button>
-            <button type="button" class="btn btn-warning" name="button">Decline</button>
+          <p><strong>Date of proposal: </strong></p>
+          <form class="invisible-form" action="/users/accept-trade" method="post">
+            <input name="tradeId" value="{{this._id}}">
+            <button type="button" class="btn btn-primary" name="button">Accept trade</button>
+          </form>
+          
+          <form class="invisible-form" action="/users/decline-trade" method="post">
+            <input name="tradeId" value="{{this._id}}">
+            <button type="button" class="btn btn-warning" name="button">Decline trade</button>
           </form>
         </div>
       {{/each}}
@@ -66,6 +72,7 @@
           <p><strong>Book offered:</strong> <em>{{this.sentBook.title}}</em> by {{this.sentBook.author}}</p>
           <p><strong>Book asking:</strong> <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
           <p><strong>Sent to:</strong> {{this.sentTo.username}}</p>
+          <p><strong>Date of proposal: </strong></p>
         </div>
       {{/each}}
     </div>
@@ -78,6 +85,7 @@
           <p>Book asking: <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
           <p>Sent to: {{this.sentTo.username}}</p>
           <p>Sent from: {{this.sentFrom.username}}</p>
+          <p><strong>Date of proposal: </strong></p>
         </div>
       {{/each}}
     </div>
@@ -90,6 +98,7 @@
           <p>Book asking: <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
           <p>Sent to: {{this.sentTo.username}}</p>
           <p>Sent from: {{this.sentFrom.username}}</p>
+          <p><strong>Date of proposal: </strong></p>
         </div>
       {{/each}}
     </div>

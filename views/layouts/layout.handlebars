@@ -55,8 +55,8 @@
               
                 <ul class="nav navbar-nav navbar-right">
                     {{#if user}}
-                    <li>
-                      <a><span style="color: #D1FAFF; font-size:17px">Welcome, {{{user.username}}}</span>.</a>
+                    <li id="welcome-message">
+                      <a><span style="color: #D1FAFF;">Welcome, {{{user.username}}}</span>.</a>
                     </li>
                     <li id="explore" class="nav-btn">
                         <a href="/"><i class="fa fa-compass" aria-hidden="true"></i>Explore</a>
