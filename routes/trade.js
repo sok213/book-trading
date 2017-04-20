@@ -91,7 +91,6 @@ router.post('/propose-trade/send', authenticate, (req, res) => {
 // POST /users/trade/accept-trade to accept a trade from another user.
 router.post('/accept-trade', authenticate, (req, res) => {
   let tradeId = req.body.tradeId;
-  console.log('tradeId: ', tradeId);
   
   // Find trade by id and set 'status' to 'accepted'.
   Trade.findByIdAndUpdate(tradeId, 
@@ -102,16 +101,16 @@ router.post('/accept-trade', authenticate, (req, res) => {
   }).catch((err) => res.status(400).send(err));
 });
 
-// POST /users/decline-trade to decline a trade from another user.
-router.patch('/decline-trade', authenticate, (req, res) => {
-  let body = _.pick(req.body, ['tradeId']);
+// POST /users/trade/decline-trade to decline a trade from another user.
+router.post('/decline-trade', authenticate, (req, res) => {
+  let tradeId = req.body.tradeId;
   
   // Find trade by id and set 'status' to 'declined'.
-  Trade.findByIdAndUpdate(body.tradeId, 
+  Trade.findByIdAndUpdate(tradeId, 
     { $set: { status: 'declined' } },
     { safe: true, upsert: true, new : true })
   .then((updatedTrade) => {
-    res.send(updatedTrade);
+    res.redirect('/users/mybookshelf');
   }).catch((err) => res.status(400).send(err));
 });
 
