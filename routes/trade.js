@@ -20,6 +20,14 @@ router.use((req, res, next) => {
 // from the their library and send it to the POST request which creates a 
 // sent trade.
 router.post('/propose-trade/create', authenticateTrade, (req, res) => {
+  
+  // Prevent user from proposing a trade with themselves.
+  if(res.locals.user.username == JSON.parse(req.body.selectedBookOwner)) {
+    return res.render('trade-error', {
+      error_msg: 'You cannot trade a book with yourself!'
+    });
+  }
+  
   // Store the book object that the client wants to trade for and the id of
   // the receiving user.
   let selectedBook = req.body.selectedBook;
@@ -47,6 +55,7 @@ router.post('/propose-trade/create', authenticateTrade, (req, res) => {
 
 // POST /users/propose-trade to propose a trade to another user.
 router.post('/propose-trade/send', authenticate, (req, res) => {
+  
   //Create trade object.
   let trade = new Trade({
     sentBook: JSON.parse(req.body.sentBook),

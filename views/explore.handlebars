@@ -15,6 +15,7 @@
           <!-- propose-trade button with hidden form values. -->
           <form class="propose-form" action="/users/trade/propose-trade/create" method="post">
             <input type="text" name="selectedBook" value="{{convertjson this.id}}">
+            <input type="text" name="selectedBookOwner" value="{{convertjson this.owner}}">
             <button type="submit" class="btn btn-primary">Propose trade</button>
           </form>
         </div>
