@@ -18,13 +18,52 @@ router.get('/settings', (req, res) => {
 
 // Route for user profile.
 router.get('/mybookshelf', authenticate, (req, res) => {
-  res.render('mybookshelf', {
-    myBooks: res.locals.user.books,
-    helpers: {
-      convertjson: function(context) {
-        return JSON.stringify(context);
-      } 
+  
+  // Declare empty array to hold trade IDs stored with the user.
+  let tradeIds = [];
+  // Retrieve all trade IDs from user object and push it to tradeIds. 
+  res.locals.user.trades.map((tradeId) => {
+    tradeIds.push(tradeId);
+  });
+  
+  // Find all trade objects via tradeIds from above.
+  Trade.find({_id: { $in: tradeIds}}, (err, array) => {
+    if(err) {
+      return res.status(400).send(err);
     }
+  }).then((trades) => {
+    // Declare empty arrays for different states of trades requests.
+    let receivedRequests = [];
+    let sentRequests = [];
+    let declinedRequests = [];
+    let acceptedRequests = [];
+    
+    // Push each trade to the array corresponding to their state.
+    trades.filter((trade) => {
+      if(trade.status == 'declined') {
+        declinedRequests.push(trade);
+      } else if(trade.status == 'accepted') {
+        acceptedRequests.push(trade);
+      } else if(trade.sentFrom.username == res.locals.user.username) {
+        sentRequests.push(trade);
+      } else if(trade.sentFrom.username !== res.locals.user.username) {
+        receivedRequests.push(trade);
+      }
+    });
+    
+    // Render mybookshelf.handleBars with variables.
+    res.render('mybookshelf', {
+      receivedRequests,
+      sentRequests,
+      declinedRequests,
+      acceptedRequests,
+      myBooks: res.locals.user.books,
+      helpers: {
+        convertjson: function(context) {
+          return JSON.stringify(context);
+        } 
+      }
+    });
   });
 });
 

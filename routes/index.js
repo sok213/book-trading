@@ -1,6 +1,7 @@
 const express  = require('express'),
 _              = require('lodash'),
 {User}         = require('./../models/user'),
+{Trade}        = require('./../models/trade'),
 {ObjectID}     = require('mongodb'),
 mongoose       = require('mongoose'),
 passport       = require('passport');
@@ -10,6 +11,7 @@ const router = express.Router();
 
 // Public route for home page.
 router.get('/', (req, res) => {
+  
   // Find all books posted by every user and send it back to client.
   User.find({}, ['-email', '-city', '-state'], (err, doc) => {
     // Store all books in allBooks array.

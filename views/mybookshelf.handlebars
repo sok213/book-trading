@@ -45,11 +45,53 @@
   
   <div class="col-md-6 col-lg-6">
     <div class="section">
-      <h2><i class="fa fa-inbox" aria-hidden="true"></i> Trade Requests</h2>
+      <h2><i class="fa fa-inbox" aria-hidden="true"></i> Received Requests</h2>
+      {{#each receivedRequests}}
+        <div class="trade-item">
+          <p><strong>Book offered:</strong> <em>{{this.sentBook.title}}</em> by {{this.sentBook.author}}</p>
+          <p><strong>Book asking:</strong> <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
+          <p><strong>Sent from:</strong> {{this.sentFrom.username}}</p>
+          <form action="index.html" method="post">
+            <button type="button" class="btn btn-primary" name="button">Accept</button>
+            <button type="button" class="btn btn-warning" name="button">Decline</button>
+          </form>
+        </div>
+      {{/each}}
     </div>
     
     <div class="section">
       <h2><i class="fa fa-share-square" aria-hidden="true"></i> Sent Requests</h2>
+      {{#each sentRequests}}
+        <div class="trade-item">
+          <p><strong>Book offered:</strong> <em>{{this.sentBook.title}}</em> by {{this.sentBook.author}}</p>
+          <p><strong>Book asking:</strong> <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
+          <p><strong>Sent to:</strong> {{this.sentTo.username}}</p>
+        </div>
+      {{/each}}
+    </div>
+    
+    <div class="section">
+      <h2><i class="fa fa-check-square" aria-hidden="true"></i> Accepted Requests</h2>
+      {{#each acceptedRequests}}
+        <div class="trade-item">
+          <p><strong>Book offered:</strong> <em>{{this.sentBook.title}}</em> by {{this.sentBook.author}}</p>
+          <p>Book asking: <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
+          <p>Sent to: {{this.sentTo.username}}</p>
+          <p>Sent from: {{this.sentFrom.username}}</p>
+        </div>
+      {{/each}}
+    </div>
+    
+    <div class="section">
+      <h2><i class="fa fa-frown-o" aria-hidden="true"></i> Declined Requests</h2>
+      {{#each declinedRequests}}
+        <div class="trade-item">
+          <p>Book offered: <em>{{this.sentBook.title}}</em> by {{this.sentBook.author}}</p>
+          <p>Book asking: <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
+          <p>Sent to: {{this.sentTo.username}}</p>
+          <p>Sent from: {{this.sentFrom.username}}</p>
+        </div>
+      {{/each}}
     </div>
   </div>
 </div>

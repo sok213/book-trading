@@ -64,7 +64,7 @@ router.post('/propose-trade/send', authenticate, (req, res) => {
     
     // Find receiving user and add the 'pendingTrades' object.
     User.findOneAndUpdate({ username: app.locals.selectedBook.owner }, 
-      { $push: { trades: resultTrade._id.toString() } },
+      { $push: { trades: resultTrade._id } },
       { safe: true, upsert: true, new : true })
     .then((thisUser) => {
         if(!thisUser) {
