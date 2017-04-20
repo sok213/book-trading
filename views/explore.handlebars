@@ -1,25 +1,25 @@
 <link rel="stylesheet" href="css/explore.css">
 <div class="container">
-  <h1>Explore.</h1>
   
-  <div class="col-md-12 col-lg-12">
-    {{#each books}}
-      <div class="book-item col-md-3 col-lg-3 col-xl-3">
-        <div class="book-container">
-          <img src={{this.thumbnail}} alt="Book cover image">
-          <div class="book-desc">
-            <em>{{this.title}}</em><br>
-            by {{this.author}} <br>
-            <small>Owned by <a href="#"><span style="color: rgb(41, 156, 56);">{{this.owner}}</span></a></small>
-          </div>
-          <!-- propose-trade button with hidden form values. -->
+  <div class="col-md-12 col-lg-12 collection-container">
+      <h1>Explore books.</h1>
+      {{#each books}}
+        <div class="book-item">
+          <div class="book-container">
+            <img src={{this.thumbnail}} alt="Book cover image">
+            <div class="book-desc">
+              <em>{{this.title}}</em><br>
+              by {{this.author}} <br>
+              <small>Owned by <a href="#"><span style="color: rgb(41, 156, 56);">{{this.owner}}</span></a></small>
+            </div>
+            <!-- propose-trade button with hidden form values. -->
           <form class="propose-form" action="/users/trade/propose-trade/create" method="post">
-            <input type="text" name="selectedBook" value="{{convertjson this.id}}">
-            <input type="text" name="selectedBookOwner" value="{{convertjson this.owner}}">
-            <button type="submit" class="btn btn-primary">Propose trade</button>
-          </form>
+              <input type="text" name="selectedBook" value="{{convertjson this.id}}">
+              <input type="text" name="selectedBookOwner" value="{{convertjson this.owner}}">
+              <button type="submit" class="btn btn-primary">Propose trade</button>
+            </form>
+          </div>
         </div>
-      </div>
-    {{/each}}
+      {{/each}}
   </div>
 </div>

@@ -1,12 +1,14 @@
 .book-item {
   text-align: center;
   color: rgb(59, 59, 59);
-  min-height: 300px;
-  min-width: 200px;
+  width: 300px;
   padding: 10px;
   display: inline-block;
 }
 
+.collection-container {
+  text-align: center;
+}
   .book-desc {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -35,7 +37,7 @@
 .spaced-margin-bottom {
   padding-bottom: 10px;
 }
-  
+
 @media (max-width: 471px) {
   .book-item {
     width: 100%;
