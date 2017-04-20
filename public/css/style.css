@@ -6,14 +6,22 @@ html, body {
   background-color: white;
 }
 
+#signup {
+  margin-left: 10px;
+}
+
 h1, h2 {
   font-family: 'Playfair Display SC', serif;
   color: rgb(68, 68, 68);
 }
 
-h3 {
+h3, ol {
   font-family: 'Josefin Sans', sans-serif;
   color: rgb(105, 105, 105);
+}
+
+ol {
+  font-size: 17px;
 }
 
 body {

@@ -32,6 +32,30 @@ router.get('/', (req, res) => {
   });
 });
 
+// Public route to view a user's public profile page.
+router.get('/public-profile/:id', (req, res) => {
+  let userId = req.params.id;
+  
+  // Find user by id and disply details to page.
+  User.findById(userId, (err, user) => {
+    if(err || !user) {
+      return res.status(400).render('404', {
+        error_msg: 'User was not found in database!'
+      });
+    }
+    
+    // Render view with user.
+    res.render('public-profile', {
+      user,
+      helpers: {
+        convertjson: function(context) {
+          return JSON.stringify(context);
+        } 
+      }
+    });
+  });
+});
+
 // Public route for sign up.
 router.get('/login', (req, res) => {
   res.render('login');
