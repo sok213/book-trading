@@ -1,0 +1,12 @@
+#explore {
+  border: none !important;
+}
+
+#public-profile {
+  border-bottom: 8px solid #88cc81;
+  border-left: 2px solid #6eaa68;
+}
+
+p {
+  color: rgb(68, 68, 68);
+}

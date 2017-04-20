@@ -109,7 +109,20 @@ label {
 }
 
 @media (max-width: 994px) {
-  .navbar-brand {
+  #brand {
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+  }
+  
+  #white-text {
     font-size: 20px;
   }
+}
+
+@media (max-width: 755px) {
+  #brand {
+    visibility: visible;;
+  }
+  
 }

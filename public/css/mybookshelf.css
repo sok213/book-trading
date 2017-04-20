@@ -107,13 +107,3 @@ h2 {
 #explore {
   border: none !important;
 }
-
-@media (max-width: 994px) {
-  .navbar-brand {
-    font-size: 20px;
-  }
-  
-  #white-text {
-    font-size: 20px;
-  }
-}
