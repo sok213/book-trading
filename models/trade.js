@@ -11,20 +11,12 @@ let TradeSchema = new mongoose.Schema({
     required: true
   },
   sentFrom: {
-    _id: {
-      type: String,
-      required: true
-    },
     username: {
       type: String,
       required: true
     }
   },
   sentTo: {
-    _id: {
-      type: String,
-      required: true
-    },
     username: {
       type: String,
       required: true

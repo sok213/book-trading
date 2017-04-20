@@ -33,8 +33,11 @@
                 <em>{{this.title}}</em><br>
                 by {{this.author}} <br>
               </div>
-              
-              <button type="button" class="btn btn-primary">Trade this book</button>
+              <!-- propose-trade button with hidden form values. -->
+              <form class="propose-form" action="/users/trade/propose-trade/send" method="post">
+                <input name="sentBook" value="{{convertjson this}}">
+                <button type="submit" class="btn btn-primary">Trade this book</button>
+              </form>
             </div>
           </div>
         {{/each}}
