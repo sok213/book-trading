@@ -52,14 +52,14 @@
           <p><strong>Book asking:</strong> <em>{{this.askingBook.title}}</em> by {{this.askingBook.author}}</p>
           <p><strong>Sent from:</strong> {{this.sentFrom.username}}</p>
           <p><strong>Date of proposal: </strong></p>
-          <form class="invisible-form" action="/users/accept-trade" method="post">
+          <form class="invisible-form" action="/users/trade/accept-trade" method="post">
             <input name="tradeId" value="{{this._id}}">
-            <button type="button" class="btn btn-primary" name="button">Accept trade</button>
+            <button type="submit" class="btn btn-primary" name="button">Accept trade</button>
           </form>
           
           <form class="invisible-form" action="/users/decline-trade" method="post">
             <input name="tradeId" value="{{this._id}}">
-            <button type="button" class="btn btn-warning" name="button">Decline trade</button>
+            <button type="submit" class="btn btn-warning" name="button">Decline trade</button>
           </form>
         </div>
       {{/each}}
