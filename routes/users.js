@@ -118,6 +118,10 @@ router.post('/register', (req, res) => {
       
       // Send back the user document after new user is saved.
       res.redirect('/login');
+    }).catch((err) => {
+      res.render('sign-up', {
+        errors: [{msg: 'Email already exists!'}]
+      });
     });
   });
 });
